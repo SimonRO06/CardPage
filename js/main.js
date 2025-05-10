@@ -70,13 +70,12 @@ class HeroCard extends HTMLElement {
             grid-template-columns: repeat(5, 1fr);
             gap: 10px;
             overflow: scroll;
-            scrollbar-color: blue;
         }
         #cards::-webkit-scrollbar {
             display: none;
         }
         .card {
-            background-image: url(https://static.vecteezy.com/system/resources/previews/011/596/673/non_2x/comic-style-background-with-halftone-effect-superhero-poster-backdrop-vintage-free-vector.jpg);
+            background-image: url(https://static.vecteezy.com/system/resources/previews/022/275/674/non_2x/black-color-comic-style-lines-background-illustration-free-vector.jpg);
             background-size: cover;
             width: 15vw;
             height: 45vh;
@@ -87,34 +86,38 @@ class HeroCard extends HTMLElement {
             grid-column: auto;
         }
         .card:hover {
-            height: fit-content;
+            transition: 0.2s ease;
+            transform: scale(1.07);
         }
-        .card h1 {
+        #card-title {
             background-size: cover;
             text-align: center;
         }
-        .card img {
+        #image {
             display: block;
-            margin: auto;
             width: 10vw;
             height: 20vh;
             border-radius: 100%;
         }
         #btn-ver-mas {
             text-decoration: none;
-            padding: 5px;
+            padding: 10px;
             display: flex;
             justify-content: center;
             color: black;
             background-color: rgb(255, 106, 106);
             border-radius: 5px;
         }
-        #content {
-            background-color: rgb(255, 255, 255);
-            overflow: hidden;
-            height: 90%;
+        .content {
+            background-color: rgba(255, 255, 255, 0.73);
+            overflow: scroll;
+            height: 85%;
             border-radius: 5px;
             padding: 10px;
+            margin-bottom: 5px;
+        }
+        .content::-webkit-scrollbar {
+            display: none;
         }
         #card-title {
             font-family: "Bungee Tint", sans-serif;
@@ -123,14 +126,49 @@ class HeroCard extends HTMLElement {
         }
         #btn-ver-mas {
         }
+        @media (max-width: 500px) {
+            .card {
+                width: 40vw;
+                height: 60vh;
+                overflow: hidden;
+                padding: 5px 10px;
+                border: 2px solid rgb(0, 0, 0);
+                border-radius: 5px;
+                grid-column: auto;
+            }
+            #image {
+                display: block;
+                margin: auto;
+                width: 80%;
+                height: 30%;
+                border-radius: 100%;
+            }
+        }
     `;
 
         const styleSheet = document.createElement("style");
         styleSheet.textContent = styles;
         SHADOW.appendChild(styleSheet);
-        CARD_INFO_CONTAINER.append(NOMBRE, IMAGEN, NOMBRE_CLAVE, CASA, AÑO, DESCRIPCION, BOTON_VER_MAS);
-        CARD_CONTAINER.append(CARD_INFO_CONTAINER);
+        CARD_INFO_CONTAINER.append(NOMBRE, IMAGEN, NOMBRE_CLAVE, CASA, AÑO, DESCRIPCION);
+        CARD_CONTAINER.append(CARD_INFO_CONTAINER, BOTON_VER_MAS);
         SHADOW.append(CARD_CONTAINER);
     }
 }
 customElements.define('hero-card', HeroCard);
+
+const SEARCH_INPUT = document.querySelector('#buscar');
+const CARDS = document.querySelectorAll('hero-card');
+
+function filtrarTarjetas() {
+    const FILTRO = SEARCH_INPUT.value.toLowerCase();
+    CARDS.forEach(card => {
+        const NOMBRE = card.shadowRoot.querySelector('#card-title').innerText.toLowerCase();
+        if (NOMBRE.includes(FILTRO)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+SEARCH_INPUT.addEventListener('input', filtrarTarjetas);

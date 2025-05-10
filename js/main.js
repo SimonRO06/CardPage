@@ -49,9 +49,37 @@ class HeroCard extends HTMLElement {
         DESCRIPCION.id = 'description';
         DESCRIPCION.innerHTML = `<strong>DESCRIPCION: </strong> ${descripcion}`;
 
+        function ver_mas() {
+        const CARDS = document.querySelectorAll('hero-card');
+        CARDS.forEach(card => {
+            card.style.display = 'none';
+            });
+            class InfoCard extends HTMLElement {
+                constructor() {
+                    super()
+                        const SHADOW = this.attachShadow({ mode: 'open' });
+
+                        const CARD_CONTAINER = document.createElement('div');
+                        const IMAGEN = document.createElement('img');
+                        const COSA = document.createElement('h3');
+                        const DESCRIPCION = document.createElement('p');
+
+                        IMAGEN.src = imagen;
+
+                        COSA.innerHTML = descripcion
+
+                        CARD_CONTAINER.append(IMAGEN);
+                        SHADOW.append(CARD_CONTAINER);
+
+                }
+            }
+            customElements.define('info-card', InfoCard);
+        }
+
         BOTON_VER_MAS.id = 'btn-ver-mas';
-        BOTON_VER_MAS.href = `#`
-        BOTON_VER_MAS.innerHTML = `VER MAS`
+        BOTON_VER_MAS.href = `#`;
+        BOTON_VER_MAS.innerHTML = `VER MAS`;
+        BOTON_VER_MAS.addEventListener('click', ver_mas);
 
         const styles = `
         .btn {
@@ -78,7 +106,7 @@ class HeroCard extends HTMLElement {
             background-image: url(https://static.vecteezy.com/system/resources/previews/022/275/674/non_2x/black-color-comic-style-lines-background-illustration-free-vector.jpg);
             background-size: cover;
             width: 15vw;
-            height: 45vh;
+            height: 75vh;
             overflow: hidden;
             padding: 5px 10px;
             border: 2px solid rgb(0, 0, 0);
@@ -98,6 +126,7 @@ class HeroCard extends HTMLElement {
             width: 10vw;
             height: 20vh;
             border-radius: 100%;
+            margin-left: 15%;
         }
         #btn-ver-mas {
             text-decoration: none;
